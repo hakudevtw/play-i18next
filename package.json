@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "interface": "i18next-resources-for-ts interface -i ./src/i18n/locales/en -o ./src/@types/resources.d.ts"
   },
   "dependencies": {
     "accept-language": "^3.0.20",
@@ -23,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "i18next-resources-for-ts": "^1.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

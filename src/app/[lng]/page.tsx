@@ -1,10 +1,8 @@
 import Image from "next/image";
 import { getT } from "@/i18n";
-import { headers } from "next/headers";
-import { HEADER_NAME } from "@/i18n/settings";
 
 export default async function Home() {
-  const { t } = await getT();
+  const { t } = await getT("translation");
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
