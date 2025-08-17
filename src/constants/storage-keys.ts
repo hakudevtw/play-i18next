@@ -1,5 +1,5 @@
 export const COOKIE_KEYS = {
-  I18Next: "x-i18next",
+  I18Next: "i18next",
 };
 
 export const HEADER_KEYS = {

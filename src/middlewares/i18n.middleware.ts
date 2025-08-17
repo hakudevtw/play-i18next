@@ -5,6 +5,7 @@ import type { CustomMiddleware } from "./chain";
 
 acceptLanguage.languages(LANGUAGES);
 
+// TODO update cookies, rewrite default lng
 export function withI18n(middleware: CustomMiddleware): CustomMiddleware {
   return async (request: NextRequest, event: NextFetchEvent, response: NextResponse) => {
     let lng;
@@ -27,6 +28,12 @@ export function withI18n(middleware: CustomMiddleware): CustomMiddleware {
 
     // If the language is not in the path, redirect to include it
     if (!lngInPath && !request.nextUrl.pathname.startsWith("/_next")) {
+      if (lng === FALLBACK_LNG) {
+        return NextResponse.rewrite(
+          new URL(`/${lng}${request.nextUrl.pathname}${request.nextUrl.search}`, request.url)
+        );
+      }
+
       return NextResponse.redirect(
         new URL(`/${lng}${request.nextUrl.pathname}${request.nextUrl.search}`, request.url)
       );
