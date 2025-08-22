@@ -1,12 +1,16 @@
 import { NextResponse, type NextRequest, type NextFetchEvent } from "next/server";
 import acceptLanguage from "accept-language";
 import { FALLBACK_LNG, LANGUAGES, COOKIE_NAME, HEADER_NAME } from "@/i18n/settings";
+import { isPagesRouter } from "@/i18n/migration";
 import type { CustomMiddleware } from "./chain";
 
 acceptLanguage.languages(LANGUAGES);
 
 export function withI18n(middleware: CustomMiddleware): CustomMiddleware {
   return async (request: NextRequest, event: NextFetchEvent, response: NextResponse) => {
+    // Pages router uses next-config for configuration
+    if (isPagesRouter(request.nextUrl.pathname)) return middleware(request, event, response);
+
     let lng;
 
     // Try to get language from cookie
