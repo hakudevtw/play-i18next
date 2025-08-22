@@ -16,7 +16,7 @@ i18next
     )
   )
   .init({
-    debug: true,
+    // debug: true,
     lowerCaseLng: true,
     supportedLngs: LANGUAGES,
     fallbackLng: FALLBACK_LNG,
