@@ -30,7 +30,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 5. Add rewrite logic for pages router in the i18n middleware
 6. Since now the `locale` prop is not set to the context in getStaticProps, I switched to getServerSideProps to get lang from the headers in pages route
 
-## About this project
+## About this Project
 
 - Using [jiti](https://github.com/unjs/jiti#programmatic) to import ts files into js config file
 - Using the chain approach for multiple middlewares
+
+## Current Problems
+
+- You still have to first migrate the root [dynamic-route] in the pages router for this to work
+- You can't get the goods for SSG in pages router after this approach
