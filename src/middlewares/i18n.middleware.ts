@@ -1,18 +1,13 @@
 import { NextResponse, type NextRequest, type NextFetchEvent } from "next/server";
 import acceptLanguage from "accept-language";
 import { FALLBACK_LNG, LANGUAGES, COOKIE_NAME, HEADER_NAME } from "@/i18n/settings";
-import { isPagesRouter } from "@/i18n/migration";
+import { isPagesRouter, removeLocale } from "@/i18n/migration";
 import type { CustomMiddleware } from "./chain";
 
 acceptLanguage.languages(LANGUAGES);
 
 export function withI18n(middleware: CustomMiddleware): CustomMiddleware {
   return async (request: NextRequest, event: NextFetchEvent, response: NextResponse) => {
-    if (isPagesRouter(request.nextUrl.pathname)) {
-      console.log(request.nextUrl.locale);
-      return middleware(request, event, response);
-    }
-
     let lng;
 
     // Try to get language from cookie
@@ -30,6 +25,14 @@ export function withI18n(middleware: CustomMiddleware): CustomMiddleware {
 
     // Set the header
     response.headers.set(HEADER_NAME, lngInPath || lng);
+
+    // ! Rewrite to old routes for pages router
+    if (isPagesRouter(request.nextUrl.pathname)) {
+      const withoutLocale = removeLocale(request.nextUrl.pathname);
+      const url = request.nextUrl.clone();
+      url.pathname = withoutLocale;
+      return NextResponse.rewrite(url, { headers: response.headers });
+    }
 
     // If the language is not in the path
     if (!lngInPath && !request.nextUrl.pathname.startsWith("/_next")) {

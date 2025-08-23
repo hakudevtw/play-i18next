@@ -1,5 +1,7 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { getServerSideLang } from "@/i18n/migration";
+import type { GetServerSideProps } from "next";
 
 export default function Page() {
   const { t } = useTranslation("translation");
@@ -11,10 +13,11 @@ export default function Page() {
   );
 }
 
-export async function getStaticProps({ locale }: any) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const locale = getServerSideLang(context);
   return {
     props: {
       ...(await serverSideTranslations(locale, ["translation"])),
     },
   };
-}
+};
