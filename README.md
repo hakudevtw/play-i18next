@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+Install packages
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+Run the development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Migration Plan
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Migrate `pages/[some-dynamic-route]` in the pages router that conflicts to the new `app/[lng]/` route in the apps router
+2. Migrating Static Pages or performance sensitive pages to app router to enable SSG
+3. Migrate other routes until every routes is in the app router
+4. Remove code for next-i18next, reference to the steps in `/src/i18n/migration.ts`
 
-## Learn More
+## Actions made to support both routers
 
-To learn more about Next.js, take a look at the following resources:
+1. Referencing [this blog](https://www.locize.com/blog/i18n-next-app-router) to set up i18next for app router
+2. Referencing [this discussion](https://github.com/vercel/next.js/discussions/36308) to prevent middleware running on requests served in /public folder
+3. Referencing [this README](https://github.com/i18next/next-i18next) to setup next-i18next for pages router
+4. Remove i18n config from next.config.js which causes it to redirect to 404 for app router pages (the i18n field is made for page router)
+5. Add rewrite logic for pages router in the i18n middleware
+6. Since now the `locale` prop is not set to the context in getStaticProps, I switched to getServerSideProps to get lang from the headers in pages route
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## About this project
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Using [jiti](https://github.com/unjs/jiti#programmatic) to import ts files into js config file
+- Using the chain approach for multiple middlewares
