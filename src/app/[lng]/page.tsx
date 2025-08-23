@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getT } from "@/i18n";
 
-export default async function Home() {
+export default async function Page() {
   const { t } = await getT("translation");
 
   return (
