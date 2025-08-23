@@ -1,3 +1,20 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+
 export default function Page() {
-  return <h1>Hello, I'm an old page waiting for migration!</h1>;
+  const { t } = useTranslation("translation");
+  return (
+    <div>
+      <h1 className="text-red-300">{t("h1")}</h1>
+      <p>Hello, I'm an old page waiting for migration!</p>
+    </div>
+  );
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["translation"])),
+    },
+  };
 }

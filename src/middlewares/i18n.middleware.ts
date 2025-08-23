@@ -8,8 +8,10 @@ acceptLanguage.languages(LANGUAGES);
 
 export function withI18n(middleware: CustomMiddleware): CustomMiddleware {
   return async (request: NextRequest, event: NextFetchEvent, response: NextResponse) => {
-    // Pages router uses next-config for configuration
-    if (isPagesRouter(request.nextUrl.pathname)) return middleware(request, event, response);
+    if (isPagesRouter(request.nextUrl.pathname)) {
+      console.log(request.nextUrl.locale);
+      return middleware(request, event, response);
+    }
 
     let lng;
 

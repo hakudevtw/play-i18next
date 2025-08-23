@@ -1,9 +1,13 @@
 /**
  * TODO After migrating all pages to app router
- * 1. Remove i18n config in next-config.js
- * 2. Remove isPagesRouter in /middlewares/i18n.middleware.ts
+ * 1. Remove i18n config in /next-config.js
+ * 2. Remove /next-i18next.config.js
+ * 2. Remove isPagesRouter condition in /middlewares/i18n.middleware.ts
  * 3. Remove this file
  * 4. Uninstall next-i18next package
+ * 5. Remove jiti package if not used in other places
+ * 6. Change /src/i18n/settings to change back using alias
+ *    -> relative path is used to support jiti importing ts files into js files
  */
 
 import { LANGUAGES } from "./settings";

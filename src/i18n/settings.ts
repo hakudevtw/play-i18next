@@ -1,4 +1,4 @@
-import { COOKIE_KEYS, HEADER_KEYS } from "@/constants/storage-keys";
+import { COOKIE_KEYS, HEADER_KEYS } from "../constants/storage-keys";
 
 export const FALLBACK_LNG = "en";
 export const LANGUAGES = [FALLBACK_LNG, "de", "it"];
